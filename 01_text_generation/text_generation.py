@@ -1,15 +1,11 @@
 import boto3
 import json
 import os
-import sys
-sys.path.append("..")
 
-from utils import bedrock, print_ww
+session = boto3.Session(profile_name='bedrock')
+boto3_bedrock = session.client('bedrock', 'us-east-1', endpoint_url='https://bedrock.us-east-1.amazonaws.com')
 
-os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
-boto3_bedrock = bedrock.get_bedrock_client()
-
-modelId = 'anthropic.claude-v2' # change this to use a different version from the model provider
+modelId = 'amazon.titan-tg1-large' # change this to use a different version from the model provider
 accept = 'application/json'
 contentType = 'application/json'
 
@@ -36,7 +32,6 @@ claude_input = json.dumps({
     "top_k": 250,
     "top_p": 1,
     "stop_sequences": [
-        "Command:"
     ]
 })
 

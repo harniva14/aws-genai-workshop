@@ -1,13 +1,10 @@
 import boto3
 import json
 import os
-import sys
-sys.path.append("..")
 
-from utils import bedrock, print_ww
+session = boto3.Session(profile_name='bedrock')
+boto3_bedrock = session.client('bedrock', 'us-east-1', endpoint_url='https://bedrock.us-east-1.amazonaws.com')
 
-os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
-boto3_bedrock = bedrock.get_bedrock_client()
 
 # Extract model IDs and join them with commas
 model_data = boto3_bedrock.list_foundation_models()

@@ -1,14 +1,9 @@
 import boto3
 import json
 import os
-import sys
 
-module_path = ".."
-sys.path.append(os.path.abspath(module_path))
-from utils import bedrock, print_ww
-
-os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
-boto3_bedrock = bedrock.get_bedrock_client()
+session = boto3.Session(profile_name='bedrock')
+boto3_bedrock = session.client('bedrock', 'us-east-1', endpoint_url='https://bedrock.us-east-1.amazonaws.com')
 
 from langchain.llms.bedrock import Bedrock
 
