@@ -1,0 +1,116 @@
+This is a review of all the changes from the last release to the current (staged) release. Below is a summary of the commits:
+
+commit ec7377a73aa51bae5e15c30fbcb2db2deba6137b
+Merge: 22ddb12ae e88899b52
+Author: aws-sdk-python-automation <github-aws-sdk-python-automation@amazon.com>
+Date:   Tue Jun 27 19:57:59 2023 +0000
+
+    Merge branch 'release-1.29.162'
+    
+    * release-1.29.162:
+      Bumping version to 1.29.162
+      Update to latest models
+      Revert "User Agent 2.0 (#2955)" (#2976)
+      User Agent 2.0 (#2955)
+      remove leftover print() statement (#2975)
+      Fallback for situations where Python's fromtimestamp() raises OSError or OverflowError (#2972)
+
+commit e88899b5254ae90cd68111ea57b8ad8dd14778df
+Author: aws-sdk-python-automation <github-aws-sdk-python-automation@amazon.com>
+Date:   Tue Jun 27 19:57:59 2023 +0000
+
+    Bumping version to 1.29.162
+
+ .changes/1.29.162.json                              | 12 ++++++++++++
+ .changes/next-release/api-change-bedrock-18551.json |  5 -----
+ .changes/next-release/bugfix-Parsers-42740.json     |  5 -----
+ CHANGELOG.rst                                       |  7 +++++++
+ botocore/__init__.py                                |  2 +-
+ docs/source/conf.py                                 |  2 +-
+ 6 files changed, 21 insertions(+), 12 deletions(-)
+
+commit 7c61e058e422f574d8d8155fccfbcc2bcf53fd13
+Author: aws-sdk-python-automation <github-aws-sdk-python-automation@amazon.com>
+Date:   Tue Jun 27 19:57:47 2023 +0000
+
+    Update to latest models
+
+ .../next-release/api-change-bedrock-18551.json     |    5 +
+ .../bedrock/2023-04-20/endpoint-rule-set-1.json    |  350 +++++
+ botocore/data/bedrock/2023-04-20/paginators-1.json |   16 +
+ botocore/data/bedrock/2023-04-20/service-2.json    | 1368 ++++++++++++++++++++
+ .../endpoint-rules/bedrock/endpoint-tests-1.json   |  295 +++++
+ 5 files changed, 2034 insertions(+)
+
+commit df1904e2b4a412e13aa5e68bdc3e44ead231ebd6
+Author: Jonas Neubert <jonasneu@amazon.com>
+Date:   Tue Jun 27 13:44:11 2023 -0600
+
+    Revert "User Agent 2.0 (#2955)" (#2976)
+    
+    This reverts commit e5d52aeaabb6ddd01c8a7b9b867182605639df4a.
+
+ .../next-release/enhancement-Useragent-93485.json  |   5 -
+ botocore/args.py                                   |  46 +-
+ botocore/client.py                                 |  14 +-
+ botocore/config.py                                 |   7 -
+ botocore/configprovider.py                         |   1 -
+ botocore/session.py                                |  27 +-
+ botocore/useragent.py                              | 483 ---------------------
+ tests/functional/test_useragent.py                 | 273 ------------
+ tests/unit/test_args.py                            |  28 +-
+ tests/unit/test_client.py                          |  15 +-
+ tests/unit/test_useragent.py                       | 182 --------
+ 11 files changed, 21 insertions(+), 1060 deletions(-)
+
+commit e5d52aeaabb6ddd01c8a7b9b867182605639df4a
+Author: Jonas Neubert <jonasneu@amazon.com>
+Date:   Tue Jun 27 11:28:40 2023 -0600
+
+    User Agent 2.0 (#2955)
+
+ .../next-release/enhancement-Useragent-93485.json  |   5 +
+ botocore/args.py                                   |  46 +-
+ botocore/client.py                                 |  14 +-
+ botocore/config.py                                 |   7 +
+ botocore/configprovider.py                         |   1 +
+ botocore/session.py                                |  27 +-
+ botocore/useragent.py                              | 483 +++++++++++++++++++++
+ tests/functional/test_useragent.py                 | 273 ++++++++++++
+ tests/unit/test_args.py                            |  28 +-
+ tests/unit/test_client.py                          |  15 +-
+ tests/unit/test_useragent.py                       | 182 ++++++++
+ 11 files changed, 1060 insertions(+), 21 deletions(-)
+
+commit 941bc76b09974fa32d08ce960db74347bbe43ec0
+Author: Jonas Neubert <jonasneu@amazon.com>
+Date:   Tue Jun 27 10:37:09 2023 -0600
+
+    remove leftover print() statement (#2975)
+
+ botocore/utils.py | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 7e4de85fadefe90135f7ef882556be15a83658c4
+Author: Jonas Neubert <jonasneu@amazon.com>
+Date:   Mon Jun 26 17:54:43 2023 -0600
+
+    Fallback for situations where Python's fromtimestamp() raises OSError or OverflowError (#2972)
+    
+    parse_timestamp to fall back to timedelta method for negative and post-2038 times
+
+ .changes/next-release/bugfix-Parsers-42740.json |  5 +++
+ botocore/utils.py                               | 43 +++++++++++++++++++++-
+ tests/unit/test_utils.py                        | 49 +++++++++++++++++++++++++
+ 3 files changed, 95 insertions(+), 2 deletions(-)
+
+commit 6be1642bf52fd61de445ed61b3ef1b38f6b2bfec
+Merge: f919e4a62 19b06553f
+Author: aws-sdk-python-automation <github-aws-sdk-python-automation@amazon.com>
+Date:   Mon Jun 26 18:10:20 2023 +0000
+
+    Merge branch 'release-1.29.161' into develop
+    
+    * release-1.29.161:
+      Bumping version to 1.29.161
+      Update to latest models

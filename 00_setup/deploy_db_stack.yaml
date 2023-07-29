@@ -1,0 +1,95 @@
+Resources:
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: "10.0.0.0/16"
+      EnableDnsSupport: "true"
+      EnableDnsHostnames: "true"
+
+  SubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: "10.0.1.0/24"
+      AvailabilityZone: !Select [ 0, !GetAZs "" ]
+      MapPublicIpOnLaunch: "true"
+
+  SubnetB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: "10.0.2.0/24"
+      AvailabilityZone: !Select [ 1, !GetAZs "" ]
+      MapPublicIpOnLaunch: "true"
+
+  InternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+
+  AttachGateway:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      VpcId: !Ref MyVPC
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicRouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref MyVPC
+
+  PublicRoute:
+    Type: "AWS::EC2::Route"
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId: !Ref InternetGateway
+
+  SubnetARouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref SubnetA
+      RouteTableId: !Ref PublicRouteTable
+
+  SubnetBRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref SubnetB
+      RouteTableId: !Ref PublicRouteTable
+
+  RDSInstanceSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: "Security group for RDS instance"
+      VpcId: !Ref MyVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '5432'
+          ToPort: '5432'
+          CidrIp: 0.0.0.0/0
+
+  MyDBInstance:
+    Type: "AWS::RDS::DBInstance"
+    Properties:
+      DBInstanceIdentifier: "MyDBInstance"
+      AllocatedStorage: "20"
+      DBInstanceClass: "db.m5d.large"
+      Engine: "postgres"
+      MasterUsername: "Someuser"
+      MasterUserPassword: "SomePassword" # Change this to a secure password
+      VPCSecurityGroups:
+        - !Ref RDSInstanceSecurityGroup
+      DBSubnetGroupName: !Ref MyDBSubnetGroup
+      PubliclyAccessible: "true"
+
+  MyDBSubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupDescription: "Subnet group for RDS instance"
+      SubnetIds:
+        - !Ref SubnetA
+        - !Ref SubnetB
+
+Outputs:
+  RDSInstanceEndpoint:
+    Description: "RDS instance endpoint"
+    Value: !GetAtt [MyDBInstance, Endpoint.Address]

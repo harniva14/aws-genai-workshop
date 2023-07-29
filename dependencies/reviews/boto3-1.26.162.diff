@@ -1,0 +1,76 @@
+diff --git a/.changes/1.26.162.json b/.changes/1.26.162.json
+new file mode 100644
+index 00000000..7c02c5a5
+--- /dev/null
++++ b/.changes/1.26.162.json
+@@ -0,0 +1,12 @@
++[
++  {
++    "category": "Parsers",
++    "description": "[``botocore``] Fixes datetime parse error handling for out-of-range and negative timestamps (`#2564 <https://github.com/boto/botocore/issues/2564>`__).",
++    "type": "bugfix"
++  },
++  {
++    "category": "``bedrock``",
++    "description": "[``botocore``] Update bedrock client to latest version",
++    "type": "api-change"
++  }
++]
+\ No newline at end of file
+diff --git a/CHANGELOG.rst b/CHANGELOG.rst
+index 3e833ccf..a67503e0 100644
+--- a/CHANGELOG.rst
++++ b/CHANGELOG.rst
+@@ -2,6 +2,13 @@
+ CHANGELOG
+ =========
+ 
++1.26.162
++========
++
++* bugfix:Parsers: [``botocore``] Fixes datetime parse error handling for out-of-range and negative timestamps (`#2564 <https://github.com/boto/botocore/issues/2564>`__).
++* api-change:``bedrock``: [``botocore``] Update bedrock client to latest version
++
++
+ 1.26.161
+ ========
+ 
+diff --git a/boto3/__init__.py b/boto3/__init__.py
+index d58a5a87..98e175a4 100644
+--- a/boto3/__init__.py
++++ b/boto3/__init__.py
+@@ -17,7 +17,7 @@ from boto3.compat import _warn_deprecated_python
+ from boto3.session import Session
+ 
+ __author__ = 'Amazon Web Services'
+-__version__ = '1.26.161'
++__version__ = '1.26.162'
+ 
+ 
+ # The default Boto3 session; autoloaded when needed.
+diff --git a/setup.cfg b/setup.cfg
+index 39a17ed2..7200c82c 100644
+--- a/setup.cfg
++++ b/setup.cfg
+@@ -3,7 +3,7 @@ universal = 0
+ 
+ [metadata]
+ requires_dist =
+-    botocore>=1.29.161,<1.30.0
++    botocore>=1.29.162,<1.30.0
+     jmespath>=0.7.1,<2.0.0
+     s3transfer>=0.6.0,<0.7.0
+ 
+diff --git a/setup.py b/setup.py
+index e3cc5ab7..2cf9efc9 100644
+--- a/setup.py
++++ b/setup.py
+@@ -13,7 +13,7 @@ VERSION_RE = re.compile(r'''__version__ = ['"]([0-9.]+)['"]''')
+ 
+ 
+ requires = [
+-    'botocore>=1.29.161,<1.30.0',
++    'botocore>=1.29.162,<1.30.0',
+     'jmespath>=0.7.1,<2.0.0',
+     's3transfer>=0.6.0,<0.7.0',
+ ]

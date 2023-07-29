@@ -1,0 +1,48 @@
+This is a review of all the changes from the last release to the current (staged) release. Below is a summary of the commits:
+
+commit bf69dd3a608c1eaaaf84aadbbd6ced846502b11d
+Merge: 4b03b73b e3721f36
+Author: aws-sdk-python-automation <github-aws-sdk-python-automation@amazon.com>
+Date:   Tue Jun 27 19:57:56 2023 +0000
+
+    Merge branch 'release-1.26.162'
+    
+    * release-1.26.162:
+      Bumping version to 1.26.162
+      Add changelog entries from botocore
+
+commit e3721f36070e687b8b66f850bf6e5ced3e2fa32a
+Author: aws-sdk-python-automation <github-aws-sdk-python-automation@amazon.com>
+Date:   Tue Jun 27 19:57:56 2023 +0000
+
+    Bumping version to 1.26.162
+
+ .changes/1.26.162.json                              | 12 ++++++++++++
+ .changes/next-release/api-change-bedrock-18551.json |  5 -----
+ .changes/next-release/bugfix-Parsers-42740.json     |  5 -----
+ CHANGELOG.rst                                       |  7 +++++++
+ boto3/__init__.py                                   |  2 +-
+ setup.cfg                                           |  2 +-
+ setup.py                                            |  2 +-
+ 7 files changed, 22 insertions(+), 13 deletions(-)
+
+commit 84999ada29ea3b649e7fc43d3c7c6dacdfd28c9f
+Author: aws-sdk-python-automation <github-aws-sdk-python-automation@amazon.com>
+Date:   Tue Jun 27 19:57:47 2023 +0000
+
+    Add changelog entries from botocore
+
+ .changes/next-release/api-change-bedrock-18551.json | 5 +++++
+ .changes/next-release/bugfix-Parsers-42740.json     | 5 +++++
+ 2 files changed, 10 insertions(+)
+
+commit 2561cc8469000d14438d53eeee021fcf51b1e2d4
+Merge: ac432a61 2a25ff38
+Author: aws-sdk-python-automation <github-aws-sdk-python-automation@amazon.com>
+Date:   Mon Jun 26 18:10:31 2023 +0000
+
+    Merge branch 'release-1.26.161' into develop
+    
+    * release-1.26.161:
+      Bumping version to 1.26.161
+      Add changelog entries from botocore

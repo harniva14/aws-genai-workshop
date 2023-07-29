@@ -1,0 +1,67 @@
+This is a review of all the changes from the last release to the current (staged) release. Below is a summary of the commits:
+
+commit 876a31f6a4c172f32c480e08482f9822413cad2b
+Merge: d7b2de44c 0a891e681
+Author: aws-sdk-python-automation <github-aws-sdk-python-automation@amazon.com>
+Date:   Tue Jun 27 19:57:48 2023 +0000
+
+    Merge branch 'release-1.27.162'
+    
+    * release-1.27.162:
+      Bumping version to 1.27.162
+      Update changelog based on model updates
+      Add exclusion of bedrock event streaming API
+
+commit 0a891e6816b51ecdf251eac9dc39fd108c3b663b
+Author: aws-sdk-python-automation <github-aws-sdk-python-automation@amazon.com>
+Date:   Tue Jun 27 19:57:48 2023 +0000
+
+    Bumping version to 1.27.162
+
+ .changes/1.27.162.json                              | 7 +++++++
+ .changes/next-release/api-change-bedrock-95418.json | 5 -----
+ CHANGELOG.rst                                       | 6 ++++++
+ awscli/__init__.py                                  | 2 +-
+ doc/source/conf.py                                  | 2 +-
+ setup.cfg                                           | 2 +-
+ setup.py                                            | 2 +-
+ 7 files changed, 17 insertions(+), 9 deletions(-)
+
+commit 8d39cc041c25dcf85362926bbd374498062592ad
+Merge: 30bc17de2 8b6ab97a8
+Author: aws-sdk-python-automation <github-aws-sdk-python-automation@amazon.com>
+Date:   Tue Jun 27 19:57:48 2023 +0000
+
+    Merge commit '8b6ab97a8f4dedf78ab5fdbe416cadbaf4b4886c' into stage-release-develop
+    
+    * commit '8b6ab97a8f4dedf78ab5fdbe416cadbaf4b4886c':
+      Add exclusion of bedrock event streaming API
+
+commit 30bc17de262c9a18d97d2348ddde39485a853bfe
+Author: aws-sdk-python-automation <github-aws-sdk-python-automation@amazon.com>
+Date:   Tue Jun 27 19:57:47 2023 +0000
+
+    Update changelog based on model updates
+
+ .changes/next-release/api-change-bedrock-95418.json | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+commit 5218ac17b8141e1a15afed9e644904a6a1081b7d
+Merge: 92fade43a 031fc825b
+Author: aws-sdk-python-automation <github-aws-sdk-python-automation@amazon.com>
+Date:   Mon Jun 26 18:10:12 2023 +0000
+
+    Merge branch 'release-1.27.161' into develop
+    
+    * release-1.27.161:
+      Bumping version to 1.27.161
+      Update changelog based on model updates
+
+commit 8b6ab97a8f4dedf78ab5fdbe416cadbaf4b4886c
+Author: Nate Prewitt <nate.prewitt@gmail.com>
+Date:   Fri Jun 9 12:50:52 2023 -0600
+
+    Add exclusion of bedrock event streaming API
+
+ awscli/customizations/removals.py | 2 ++
+ 1 file changed, 2 insertions(+)
