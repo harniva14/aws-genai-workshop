@@ -70,9 +70,9 @@ def ensure_database_exists():
         conn.close()
         conn = psycopg2.connect(
             dbname='new_dbname',
-            user='username',
-            password='YourSecurePassword',
-            host='',
+            user = 'Someuser',                                      
+            password = 'SomePassword',   
+            host=pgvector_host,
             port='5432'
         )
         conn.autocommit = True
