@@ -5,10 +5,6 @@ import os
 session = boto3.Session(profile_name='bedrock')
 boto3_bedrock = session.client('bedrock', 'us-east-1', endpoint_url='https://bedrock.us-east-1.amazonaws.com')
 
-
-os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
-boto3_bedrock = bedrock.get_bedrock_client()
-
 modelId = 'anthropic.claude-v2'  # Using Claude model
 accept = 'application/json'
 contentType = 'application/json'
