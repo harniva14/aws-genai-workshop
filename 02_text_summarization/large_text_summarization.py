@@ -11,9 +11,8 @@ from langchain.llms.bedrock import Bedrock
 
 llm = Bedrock(model_id="anthropic.claude-v2", 
               model_kwargs ={
-                "max_tokens_to_sample": 1000,
+                "max_tokens_to_sample": 5000,
                 "temperature": 0.5,
-                "top_k": 250,
                 "top_p": 1,
                 "stop_sequences": [
                     "Here is a concise summary"
@@ -29,7 +28,7 @@ llm.get_num_tokens(letter)
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 text_splitter = RecursiveCharacterTextSplitter(
-    separators=["\n\n", "\n"], chunk_size=3000, chunk_overlap=50
+    separators=["\n\n", "\n"], chunk_size=6000, chunk_overlap=50
 )
 
 docs = text_splitter.create_documents([letter])
@@ -48,4 +47,4 @@ summary_chain = load_summarize_chain(llm=llm, chain_type="map_reduce", verbose=F
 
 output = summary_chain.run(docs)
 
-print_ww(output.strip())
+print(output.strip())
