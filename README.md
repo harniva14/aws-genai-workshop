@@ -109,7 +109,7 @@
     cd /home/ec2-user/environment/aws-genai-workshop/01_text_generation/
     ```
 
-2. List all the available Amazon Bedrock foundational models
+2. List all the available Amazon Bedrock foundational models. Run the below script in Cloud9 terminal.
 
     ```
     python print_bedrock_models.py
