@@ -201,7 +201,10 @@ Choose the model that is best suited to achieving your unique goals."
     Run the script to generate image
 
     ```
-    python image_generation.py
+    python image_generation.py \
+    --prompt "White cat in a forest with clear background" \
+    --negative_prompts "poorly rendered" "poor background details" "poorly drawn" "disfigured cat features" \
+    --style_preset photographic 
     ```
 
 
