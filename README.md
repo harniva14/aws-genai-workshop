@@ -51,7 +51,7 @@
     bash update_python.sh
     ```
 
-    - Check the python version and make sure it is 3.9.9
+    Check the python version and make sure it is 3.9.9
 
     ```
     python --version
@@ -155,14 +155,14 @@ In simple terms, vector embeddings are like a secret language that computers use
 
 Run the embeddings script to convert text in to vector embeddings.
 
-    ```
-    python bedrock_embeddings.py \
-    --modelid "amazon.titan-e1t-medium" \
-    --text "Amazon Bedrock supports foundation models from \
-    industry-leading providers such as \
-    AI21 Labs, Anthropic, Stability AI, and Amazon. \ 
-    Choose the model that is best suited to achieving your unique goals."
-    ```
+```
+python bedrock_embeddings.py \
+--modelid "amazon.titan-e1t-medium" \
+--text "Amazon Bedrock supports foundation models from \
+industry-leading providers such as \
+AI21 Labs, Anthropic, Stability AI, and Amazon. \ 
+Choose the model that is best suited to achieving your unique goals."
+```
 
 
 ## 02. Text Summarization with Amazon Bedrock
@@ -210,60 +210,59 @@ Run the embeddings script to convert text in to vector embeddings.
 
 1. Go to the appropriate folder
 
-cd /home/ec2-user/environment/aws-genai-workshop/04_chatbot_private_documents/
-
+    ```
+    cd /home/ec2-user/environment/aws-genai-workshop/04_chatbot_private_documents/
+    ```
 
 
 2. Download required dependencies
 
-pip install -r requirements.txt
-
-
+    ```
+    pip install -r requirements.txt
+    ```
 
 3. Update the DB host in environment file
-
-* Go to CloudFormation console
-* Click on the stack names PostgresDBStack 
-* Click Outputs 
-* Copy the value of RDSInstanceEndpoint
-* Open env.example file in 04_chatbot_private_documents folder
-* Paste the value in PGVECTOR_HOST
-
+    - Go to [CloudFormation console](console.aws.amazon.com/cloudformation/home?region=us-east-1)
+    - Click on the stack names **PostgresDBStack**
+    - Click **Outputs**
+    - Copy the value of **RDSInstanceEndpoint**
+    - Open **env.example** file in **04_chatbot_private_documents** folder
+    - Paste the value in **PGVECTOR_HOST**
 
 
 4. Update the Huggingface API key in environment file
-
-* Open env.example file in 04_chatbot_private_documents folder
-* Update the value of HUGGINGFACEHUB_API_TOKEN
-
+    - Open **env.example** file in **04_chatbot_private_documents** folder
+    - Update the value of **HUGGINGFACEHUB_API_TOKEN**
 
 
-5. Update the Cloud9 instance security group
-
+5. Update the Cloud9 instance security group to allow a port 8501 to the world. This is the port on which our application runs.
+    - Go to the [EC2 console](console.aws.amazon.com/ec2/home?region=us-east-1)
+    - Under **Instances**, select the instance with name **cloud9-*** 
+    - Click on **Security** and then click on the security group
+    - In the inbound rules, add **Edit rules**
+    - Add a rule: **All TCP**, port **8501** from **Anywhere IPv4**
 
 
 6. Run the applcation
 
-streamlit run app.py
+    ```
+    streamlit run app.py
+    ```
 
-Open the endpoint URL. Upload the document and chat with your PDF file.
+Open the endpoint URL with Public IP address. Upload the document and chat with your PDF file.
 
 
-05 - CodeWhisperer - AI Coding assistant
+## 05 - CodeWhisperer - AI Coding assistant
 
 1. Go to the appropriate folder
 
-cd /home/ec2-user/environment/aws-genai-workshop/05_codewhisperer/
+    ```
+    cd /home/ec2-user/environment/aws-genai-workshop/05_codewhisperer/
+    ```
 
+2. Open python script 01_csv.py and start coding with CodeWhisperer
 
+3. Open python script 02_upliad_to_s3.py and start coding with CodeWhisperer
 
-1. Open python script 01_csv.py and start coding with CodeWhisperer
-
-
-
-1. Open python script 02_upliad_to_s3.py and start coding with CodeWhisperer
-
-
-
-1. Open python script 03_query_ddb.py and start coding with CodeWhisperer
+4. Open python script 03_query_ddb.py and start coding with CodeWhisperer
 
