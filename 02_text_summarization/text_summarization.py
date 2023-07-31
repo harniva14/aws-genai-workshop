@@ -1,17 +1,23 @@
 import boto3
 import json
 import os
+import argparse
 
 session = boto3.Session(profile_name='bedrock')
 boto3_bedrock = session.client('bedrock', 'us-east-1', endpoint_url='https://bedrock.us-east-1.amazonaws.com')
 
-modelId = 'anthropic.claude-v2'  # Using Claude model
+parser = argparse.ArgumentParser()
+parser.add_argument("--file", type=str, required=True, help="Prompt for text generation")
+parser.add_argument("--modelid", type=str, required=True, help="Model ID for generation")
+args = parser.parse_args()
+
+modelId = args.modelid  # Using Claude model
 accept = 'application/json'
 contentType = 'application/json'
 
 # Read the prompt from a text file
-with open("letter.txt", "r") as file:
-    prompt_data = "Please provide a summary of the following text. \n" + file.read().strip()
+with open(args.file, "r") as file:
+    prompt_data = "Please provide a summary of the following text in one small paragraph. \n" + file.read().strip()
 
 claude_input = json.dumps({
     "prompt": prompt_data,

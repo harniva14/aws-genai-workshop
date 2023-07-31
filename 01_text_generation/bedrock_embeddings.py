@@ -1,16 +1,21 @@
 import boto3
 import json
 import os
+import argparse
 
 session = boto3.Session(profile_name='bedrock')
 boto3_bedrock = session.client('bedrock', 'us-east-1', endpoint_url='https://bedrock.us-east-1.amazonaws.com')
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--text", type=str, required=True, help="Prompt for text generation")
+parser.add_argument("--modelid", type=str, required=True, help="Model ID for generation")
+args = parser.parse_args()
 
-prompt_data = "Amazon Bedrock supports foundation models from industry-leading providers such as \
-AI21 Labs, Anthropic, Stability AI, and Amazon. Choose the model that is best suited to achieving your unique goals."
+prompt_data = args.text
 
 body = json.dumps({"inputText": prompt_data})
-modelId = "amazon.titan-e1t-medium"  # change this to use a different version from the model provider
+modelId = args.modelid
+
 accept = "application/json"
 contentType = "application/json"
 
