@@ -96,7 +96,7 @@
 
     ```
     aws cloudformation create-stack --region us-east-1 \
-    --stack-name PostgresDBStack \ 
+    --stack-name PostgresDBStack \
     --template-body file://deploy_db_stack.yaml
     ```
 
