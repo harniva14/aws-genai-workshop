@@ -237,10 +237,10 @@ Choose the model that is best suited to achieving your unique goals."
 
 5. Update the Cloud9 instance security group to allow a port 8501 to the world. This is the port on which our application runs.
     - Go to the [EC2 console](console.aws.amazon.com/ec2/home?region=us-east-1)
-    - Under **Instances**, select the instance with name **cloud9-*** 
-    - Click on **Security** and then click on the security group
-    - In the inbound rules, add **Edit rules**
-    - Add a rule: **All TCP**, port **8501** from **Anywhere IPv4**
+    - Under **Instances**, select the instance with name **aws-cloud9-genai-workshop-*** 
+    - Click on **Security**. Then under **Security groups** click on the security group link
+    - Under inbound rules, click **Edit inbound rules**
+    - Click **Add rule** with following information: **All TCP**, from **Anywhere-IPv4**
 
 
 6. Run the applcation
