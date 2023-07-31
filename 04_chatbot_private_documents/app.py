@@ -8,11 +8,16 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from htmlTemplates import css, bot_template, user_template
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.llms.bedrock import Bedrock
 import os
 import psycopg2
+import boto3
 
 # Load environment variables from the env.example file
 load_dotenv('env.example')
+
+session = boto3.Session(profile_name='bedrock')
+boto3_bedrock = session.client('bedrock', 'us-east-1', endpoint_url='https://bedrock.us-east-1.amazonaws.com')
 
 # Access the environment variables
 huggingface_api_token = os.getenv('HUGGINGFACEHUB_API_TOKEN')
@@ -88,7 +93,15 @@ def get_vectorstore(text_chunks):
 
 
 def get_conversation_chain(vectorstore):
-    llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.5, "max_length":1024}, huggingfacehub_api_token=huggingface_api_token)
+    llm = Bedrock(model_id="anthropic.claude-v2", 
+              model_kwargs ={
+                "max_tokens_to_sample": 1000,
+                "temperature": 0.5,
+                "top_k": 250,
+                "top_p": 1
+              },
+              client=boto3_bedrock)
+    #llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.5, "max_length":1024}, huggingfacehub_api_token=huggingface_api_token)
 
     memory = ConversationBufferMemory(
         memory_key='chat_history', return_messages=True)
