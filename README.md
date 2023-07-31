@@ -23,7 +23,7 @@
 
 ## 00. Pre-requisites
 1. Create a Cloud9 environment
-    - Within the AWS Management Console navigate to the [Cloud9 console](console.aws.amazon.com/cloud9control/)
+    - Within the AWS Management Console navigate to the [Cloud9 console](https://us-east-1.console.aws.amazon.com/cloud9control/home?region=us-east-1)
     - Select **Create environment**.
     - Enter `genai-workshop` in the Name
     - Select `m5.large` instance type
@@ -65,7 +65,7 @@
     - Toggle off **Git: Autorefresh**
 
 6. Update IAM role so we can deploy some resources in this account
-    - Go to [IAM console](console.aws.amazon.com/iam)
+    - Go to [IAM console](https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#)
     - Click on **Roles** on left navigation menu
     - Search for **AWSCloud9SSMAccessRole**
     - Click on **Add Permission**. Then click **Attach policies**
