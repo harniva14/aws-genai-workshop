@@ -244,6 +244,7 @@ Choose the model that is best suited to achieving your unique goals."
     - Click on **Security**. Then under **Security groups** click on the security group link
     - Under inbound rules, click **Edit inbound rules**
     - Click **Add rule** with following information: **All TCP**, from **Anywhere-IPv4**
+    - Click **Save rules**
 
 
 6. Run the applcation
