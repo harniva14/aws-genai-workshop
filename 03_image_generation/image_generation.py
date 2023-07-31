@@ -2,6 +2,7 @@ import boto3
 import json
 import os
 import sys
+import argparse
 
 session = boto3.Session(profile_name='bedrock')
 boto3_bedrock = session.client('bedrock', 'us-east-1', endpoint_url='https://bedrock.us-east-1.amazonaws.com')
@@ -9,14 +10,15 @@ boto3_bedrock = session.client('bedrock', 'us-east-1', endpoint_url='https://bed
 import io, base64
 from PIL import Image
 
-prompt = "White cat in a forest with clear background"
-negative_prompts = [
-    "poorly rendered", 
-    "poor background details", 
-    "poorly drawn", 
-    "disfigured cat features"
-    ]
-style_preset = "photographic" # (photographic, digital-art, cinematic, ...)
+parser = argparse.ArgumentParser(description='Process some inputs.')
+parser.add_argument('--prompt', type=str, required=True, help='Main prompt')
+parser.add_argument('--negative_prompts', type=str, nargs='+', required=True, help='List of negative prompts')
+parser.add_argument('--style_preset', type=str, choices=['photographic', 'digital-art', 'cinematic'], required=True, help='Style preset')
+args = parser.parse_args()
+
+prompt = args.prompt
+negative_prompts = args.negative_prompts
+style_preset = args.style_preset
 
 module_path = "."
 sys.path.append(os.path.abspath(module_path))
