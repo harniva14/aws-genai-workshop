@@ -18,7 +18,7 @@ session_token=credentials.token)
 
 # We will be using the Titan Embeddings Model to generate our Embeddings.
 
-titan_llm = Bedrock(model_id= "anthropic.claude-v2", client=boto3_bedrock)
+titan_llm = Bedrock(model_id= "anthropic.claude-v1", client=boto3_bedrock)
 bedrock_embeddings = BedrockEmbeddings(client=boto3_bedrock)
 
 docsearch = OpenSearchVectorSearch(
@@ -42,12 +42,19 @@ for i, rel_doc in enumerate(query_docs):
 
 parameters = {
     "maxTokenCount":3000,
-    "stopSequences":[],
-    "temperature":0.5,
-    "topP":0.9
+    "stopSequences":["."],
+    "temperature":1,
+    "topP":0.999
     }
 
-prompt_data = "Human: Answer the question based only on the information provided without bullet points." + "<context>" + context + "</context>" + "<question>" + query + "</question>" "Assistant: "
+prompt_data = f"""Human:Answer the question based only on the information provided in full sentences only.
+<context>
+{context}
+</context>
+<question>
+{query}
+</question>
+Assistant:"""
 
 output_titan_text = titan_llm(prompt_data)
 print(output_titan_text)
