@@ -1,7 +1,7 @@
 import streamlit as st
 from dotenv import load_dotenv
 from PyPDF2 import PdfReader
-from langchain.embeddings import HuggingFaceInstructEmbeddings
+from langchain.embeddings import BedrockEmbeddings
 from langchain.llms import HuggingFaceHub
 from langchain.vectorstores.pgvector import PGVector
 from langchain.memory import ConversationBufferMemory
@@ -19,10 +19,6 @@ load_dotenv('env.example')
 session = boto3.Session(profile_name='bedrock')
 boto3_bedrock = session.client('bedrock', 'us-east-1', endpoint_url='https://bedrock.us-east-1.amazonaws.com')
 
-# Access the environment variables
-huggingface_api_token = os.getenv('HUGGINGFACEHUB_API_TOKEN')
-hub_instance = HuggingFaceHub(huggingfacehub_api_token=huggingface_api_token)
-
 pgvector_host = os.getenv('PGVECTOR_HOST')
 CONNECTION_STRING = PGVector.connection_string_from_db_params(                                                  
     driver = '',
@@ -33,8 +29,6 @@ CONNECTION_STRING = PGVector.connection_string_from_db_params(
     database = 'new_dbname'                                       
 )
 CONNECTION_STRING = CONNECTION_STRING.replace("postgresql+://", "postgresql://")
-print(CONNECTION_STRING)   
-
 
 def get_pdf_text(pdf_docs):
     text = ""
@@ -56,7 +50,7 @@ def get_text_chunks(text):
     chunks = text_splitter.split_text(text)
     return chunks
 
-def ensure_database_exists():
+def get_database_connection():
     try:
         conn = psycopg2.connect(
             dbname='postgres',
@@ -65,29 +59,41 @@ def ensure_database_exists():
             host=pgvector_host,
             port='5432'
         )
-        print("conn created")
         conn.autocommit = True
         cur = conn.cursor()
+
+        # Check if database exists
         cur.execute(f"DROP DATABASE IF EXISTS new_dbname;")
         cur.execute(f"CREATE DATABASE new_dbname;")
         print("Database created successfully")
+
         cur.close()
         conn.close()
+
+        # Connect to the new database
         conn = psycopg2.connect(
             dbname='new_dbname',
-            user = 'Someuser',                                      
-            password = 'SomePassword',   
+            user='Someuser',
+            password='SomePassword',
             host=pgvector_host,
             port='5432'
         )
         conn.autocommit = True
         cur = conn.cursor()
-        cur.execute(f"CREATE EXTENSION vector;")
+
+        # Check if extension exists
+        cur.execute("SELECT 1 FROM pg_extension WHERE extname='vector'")
+        if not cur.fetchone():
+            cur.execute(f"CREATE EXTENSION vector;")
+
+        cur.close()
+        return conn
     except Exception as e:
-        print(f"Error: Harniva {e}")
+        print(f"Error: {e}")
+        return None
 
 def get_vectorstore(text_chunks):
-    embeddings = HuggingFaceInstructEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
+    embeddings = BedrockEmbeddings(credentials_profile_name="bedrock", region_name="us-east-1")
     vectorstore = PGVector.from_texts(texts=text_chunks, embedding=embeddings,connection_string=CONNECTION_STRING)
     return vectorstore
 
@@ -101,8 +107,7 @@ def get_conversation_chain(vectorstore):
                 "top_p": 1
               },
               client=boto3_bedrock)
-    #llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.5, "max_length":1024}, huggingfacehub_api_token=huggingface_api_token)
-
+    
     memory = ConversationBufferMemory(
         memory_key='chat_history', return_messages=True)
     conversation_chain = ConversationalRetrievalChain.from_llm(
@@ -114,7 +119,12 @@ def get_conversation_chain(vectorstore):
 
 
 def handle_userinput(user_question):
-    response = st.session_state.conversation({'question': user_question})
+    # Modify the user's question to include an instruction for the LLM
+    modified_question = {
+        'question': f"Based on the uploaded document, {user_question}. If the information is not in the document, respond with 'I don't know'."
+    }
+    
+    response = st.session_state.conversation(modified_question)
     st.session_state.chat_history = response['chat_history']
 
     for i, message in enumerate(st.session_state.chat_history):
@@ -128,26 +138,21 @@ def handle_userinput(user_question):
 
 def main():
     load_dotenv()
-    ensure_database_exists()
+    
+    conn = get_database_connection()
+    if conn:
+        conn.close()
+    
     st.set_page_config(page_title="Streamlit Question Answering App",
                        page_icon=":books::parrot:")
     st.write(css, unsafe_allow_html=True)
-
-    st.sidebar.markdown(
-    """
-    ### Instructions:
-    1. Browse and upload PDF files
-    2. Click Process
-    3. Type your question in the search bar to get more insights
-    """
-)
 
     if "conversation" not in st.session_state:
         st.session_state.conversation = None
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = None
 
-    st.header("GenAI Q&A with pgvector and Amazon Aurora PostgreSQL :books::parrot:")
+    st.header("Chat with private documents (using PostgreSQL pgvector)")
     user_question = st.text_input("Ask a question about your documents:")
     if user_question:
         handle_userinput(user_question)
